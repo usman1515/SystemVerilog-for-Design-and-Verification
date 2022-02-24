@@ -1,0 +1,12 @@
+codes
+labs.pdf
+SystemVerilog for Design and Verification - Engineer Explorer Series - Lab Codes v20.6.zip
+
+work
+sv-for-design-and-verif.mpf
+sv-for-design-and-verif.cr.mti
+vsim.wlf
+transcript
+
+*/*.sv.bak
+*/tb_*.sv.bak
