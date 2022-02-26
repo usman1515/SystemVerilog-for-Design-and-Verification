@@ -1,7 +1,7 @@
-module tb_register;
+timeunit 1ns;
+timeprecision 100ps;
 
-    timeunit 1ns;
-    timeprecision 100ps;
+module tb_register;
 
     logic       rst_  = 1'b1;
     logic       clk   = 1'b1;
@@ -16,7 +16,8 @@ module tb_register;
     end
 
     // INSTANCE register 
-    register #(.DATA_WIDTH (8)) r1(
+    register #(.DATA_WIDTH (8)) 
+    r1(
         .clk  (clk  ),
         .rst_ (rst_ ),
         .en   (enable   ),
