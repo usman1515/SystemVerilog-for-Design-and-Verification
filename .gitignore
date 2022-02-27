@@ -8,5 +8,4 @@ sv-for-design-and-verif.cr.mti
 vsim.wlf
 transcript
 
-*/*.sv.bak
-*/tb_*.sv.bak
+lab_*/*.sv.bak
