@@ -1,5 +1,4 @@
-timeunit 1ns;
-timeprecision 100ps;
+`timescale 1ns/100ps
 
 module tb_counter;
 
@@ -14,7 +13,7 @@ module tb_counter;
     always #(`PERIOD/2) clk = ~clk;
 
     // counter instance
-    counter #(.DATA_WIDTH (5)) cnt1(
+    counter #(.DATA_WIDTH (5)) dut_counter(
         .clk    (clk    ),
         .rst_   (rst_   ),
         .enable (enable ),
@@ -26,8 +25,7 @@ module tb_counter;
     // Monitor Results
     initial begin
         $timeformat(-9, 0, "ns", 6 );
-        $monitor( "time=%t clk=%b rst_=%b load=%b enable=%b data=%h count=%h",
-                    $time, clk, rst_ ,load, enable, data, count);
+        $monitor("time=%t clk=%b rst_=%b load=%b enable=%b data=%5d count=%5d", $time, clk, rst_ ,load, enable, data, count);
         #(`PERIOD * 99)
         $display("COUNTER TEST TIMEOUT");
         $finish;
@@ -67,6 +65,11 @@ module tb_counter;
         { rst_, load, enable, data } = 8'b1_0_1_XXXXX; @(negedge clk) expect_test ( 5'h01 );
         $display ( "COUNTER TEST PASSED" );
         $finish;
+    end
+
+    initial begin
+        $dumpfile("lab_03/lab_03.vcd");
+        $dumpvars(0, tb_counter);
     end
 
 endmodule

@@ -1,7 +1,6 @@
-timeunit 1ns;
-timeprecision 100ps;
+`timescale 1ns/100ps
 
-module counter #(parameter DATA_WIDTH = 5)(
+module counter #(parameter DATA_WIDTH = 3)(
     input   logic                   clk ,
     input   logic                   rst_,
     input   logic                   enable,
