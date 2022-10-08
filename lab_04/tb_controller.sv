@@ -1,5 +1,4 @@
-timeunit 1ns;
-timeprecision 100ps;
+`timescale 1ns/100ps
 import typedefs::*;
 
 module tb_controller;
@@ -26,12 +25,10 @@ module tb_controller;
     logic   [3:0]   stimulus_reg;
     logic   [6:0]   response_net;
 
-    // ---- clock generator code begin------
     `define PERIOD 10
     always #(`PERIOD/2) clk = ~clk;
-    // ---- clock generator code end------
 
-    controller ctrl(
+    controller dut_controller(
         .clk        (clk        ),
         .rst_       (rst_       ),
         .zero       (zero       ),
@@ -45,7 +42,7 @@ module tb_controller;
         .mem_wr     (mem_wr     )
     );
 
-    assign response_net = { mem_rd,load_ir,halt,inc_pc,load_ac,load_pc,mem_wr };
+    assign response_net = { mem_rd, load_ir, halt, inc_pc, load_ac, load_pc, mem_wr };
     assign zero = stimulus_reg[3];
 
     // check your type name if you get an error here:-
@@ -99,6 +96,11 @@ module tb_controller;
         while ( stimulus_num <= 64 );
         $display ( "CONTROLLER TEST PASSED" );
         $finish;
+    end
+
+    initial begin
+        $dumpfile("lab_04/lab_04.vcd");
+        $dumpvars(0, tb_controller);
     end
 
 endmodule
