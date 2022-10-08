@@ -1,6 +1,5 @@
-codes
-labs.pdf
-SystemVerilog for Design and Verification - Engineer Explorer Series - Lab Codes v20.6.zip
+*.pdf
+*.zip
 
 work
 sv-for-design-and-verif.mpf
@@ -9,3 +8,11 @@ vsim.wlf
 transcript
 
 lab_*/*.sv.bak
+
+lab_*/*.ys
+lab_*/*.vcd
+lab_*/*.json
+lab_*/*.v
+lab_*/*.dot
+lab_*/*.svg
+lab_*/*.vvp
