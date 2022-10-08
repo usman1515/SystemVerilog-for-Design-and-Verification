@@ -1,7 +1,6 @@
-timeunit 1ns;
-timeprecision 100ps;
+`timescale 1ns/100ps
 
-module multiplexor #(parameter DATA_WIDTH = 1) (
+module multiplexor #(parameter DATA_WIDTH = 4) (
     input   logic [DATA_WIDTH-1:0]  in_a,
     input   logic [DATA_WIDTH-1:0]  in_b,
     input   logic                   sel,

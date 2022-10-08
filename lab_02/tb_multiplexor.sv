@@ -1,5 +1,4 @@
-timeunit 1ns;
-timeprecision 100ps;
+`timescale 1ns/100ps
 
 module tb_multiplexor;
 
@@ -11,8 +10,7 @@ module tb_multiplexor;
     logic             sel_a;   // mux_test select a
 
     // Instantiate mux
-    multiplexor #(.DATA_WIDTH(WIDTH)) 
-    mux8(
+    multiplexor #(.DATA_WIDTH(WIDTH)) dut_multiplexor(
         .in_a (in_a ),
         .in_b (in_b ),
         .sel  (sel_a),
@@ -22,8 +20,7 @@ module tb_multiplexor;
     // Monitor Results
     initial begin
         $timeformat(-9, 0, "ns", 3);
-        $monitor("%t in_a=%h in_b=%h sel_a=%h out=%h", 
-                    $time,in_a,in_b,sel_a,out);
+        $monitor("%t in_a=%h in_b=%h sel_a=%h out=%h", $time, in_a, in_b, sel_a, out);
     end
 
     // Verify Results
@@ -48,6 +45,11 @@ module tb_multiplexor;
         
         $display("MUX TEST PASSED");
         $finish(0);
+    end
+
+    initial begin
+        $dumpfile("lab_02/lab_02.vcd");
+        $dumpvars(0, tb_multiplexor);
     end
 
 endmodule
