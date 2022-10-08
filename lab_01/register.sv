@@ -1,5 +1,4 @@
-timeunit 1ns;
-timeprecision 100ps;
+`timescale 1ns/100ps
 
 module register #(parameter DATA_WIDTH=8) (
     input   logic   clk,

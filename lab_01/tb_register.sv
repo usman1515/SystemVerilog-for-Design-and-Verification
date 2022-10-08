@@ -1,5 +1,4 @@
-timeunit 1ns;
-timeprecision 100ps;
+`timescale 1ns/100ps
 
 module tb_register;
 
@@ -16,21 +15,18 @@ module tb_register;
     end
 
     // INSTANCE register 
-    register #(.DATA_WIDTH (8)) 
-    r1(
-        .clk  (clk  ),
-        .rst_ (rst_ ),
+    register #(.DATA_WIDTH (8)) dut_register(
+        .clk  (clk      ),
+        .rst_ (rst_     ),
         .en   (enable   ),
-        .data (data ),
-        .out  (out  )
-    );
-    
+        .data (data     ),
+        .out  (out      )
+    );    
 
     // Monitor Results
     initial begin
-        $timeformat ( -9, 1, " ns", 9 );
-        $monitor ("time=%t enable=%b rst_=%b data=%h out=%h",
-                    $time,enable,rst_,data,out);
+        $timeformat(-9, 1, " ns", 9);
+        $monitor ("time=%t enable=%b rst_=%b data=%h out=%h", $time,enable,rst_,data,out);
         #(`PERIOD * 99)
         $display ( "REGISTER TEST TIMEOUT" );
         $finish;
@@ -58,6 +54,11 @@ module tb_register;
         { rst_, enable, data } = 10'b1_0_10101010; @(negedge clk) expect_test ( 8'h55 );
         $display ( "REGISTER TEST PASSED" );
         $finish;
+    end
+
+    initial begin
+        $dumpfile("lab_01/lab_01.vcd");
+        $dumpvars(0, tb_register);
     end
 
 endmodule
