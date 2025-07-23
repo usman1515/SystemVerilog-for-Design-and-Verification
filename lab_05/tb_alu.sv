@@ -1,32 +1,50 @@
-`timescale 1ns/100ps
+///////////////////////////////////////////////////////////////////////////
+// (c) Copyright 2013 Cadence Design Systems, Inc. All Rights Reserved.
+//
+// File name   : tb_alu.sv
+// Title       : ALU Testbench Module
+// Project     : SystemVerilog Training
+// Created     : 2013-4-8
+// Description : Defines the ALU testbench module
+// Notes       :
+//
+///////////////////////////////////////////////////////////////////////////
+
 import typedefs::*;
+
+`define PERIOD 10
 
 module tb_alu;
 
-    logic           clk;
-    logic   [7:0]   accum;
-    logic   [7:0]   data;
-    opcode_t        opcode=HLT;
-    logic   [7:0]   out;
-    logic           zero;
+    timeunit 1ns;
+    timeprecision 100ps;
 
-    `define PERIOD 10
-    always #(`PERIOD/2) clk = ~clk;
+    // SystemVerilog: logic and enumeration and user-defined data types
+    logic [7:0] accum, data, out;
+    logic zero;
+    opcode_t opcode = HLT;
+    logic clk = 1'b1;
 
-    alu dut_alu(
-        .clk        (clk        ),
-        .accum      (accum      ),
-        .data       (data       ),
-        .opcode     (opcode     ),
-        .out        (out        ),
-        .zero       (zero       )
+    // ---- clock generator code begin------
+    always begin
+        #(`PERIOD/2) clk=1'b1;  #(`PERIOD/2) clk=1'b0;
+    end
+    // ---- clock generator code end------
+
+    alu DUT_alu (
+        .clk(clk),
+        .i_accum(accum),
+        .i_data(data),
+        .i_opcode(opcode),
+        .o_data(out),
+        .o_zero(zero)
     );
 
     // Verify Response
-    task checkit (input [8:0] expects ); begin
-        $display("Time=%t | opcode= %s data= %h accum= %h | zero= %b out= %h", $time, opcode.name(), data, accum, zero, out);
+    task checkit (input [8:0] expects); begin
+        $display ("%t opcode=%s data=%h accum=%h | zero=%b out=%h", $time, opcode.name(), data, accum, zero, out);
         if ({zero, out} !== expects) begin
-            $display("zero: %b  out: %b  | s/b: %b_%b", zero, out, expects[8], expects[7:0]);
+            $display("zero:%b  out:%b  s/b:%b_%b", zero, out, expects[8], expects[7:0]);
             $display("ALU TEST FAILED");
             $finish;
         end
@@ -49,21 +67,17 @@ module tb_alu;
         { opcode, data, accum } = 19'h4_1E_1D; @(posedge clk) checkit('h0_03);
         { opcode, data, accum } = 19'h5_72_00; @(posedge clk) checkit('h1_72);
         { opcode, data, accum } = 19'h6_00_10; @(posedge clk) checkit('h0_10);
-        $display("ALU TEST PASSED");
+        $display ( "ALU TEST PASSED" );
         $finish;
     end
 
     initial begin
         $timeformat(-9, 1, " ns", 9);
         // SystemVerilog: enhanced literal notation
-        #2000ns 
+        #2000ns
         $display("ALU TEST TIMEOUT");
         $finish;
     end
 
-    initial begin
-        $dumpfile("lab_05/lab_05.vcd");
-        $dumpvars(0, tb_alu);
-    end
-
 endmodule
+
