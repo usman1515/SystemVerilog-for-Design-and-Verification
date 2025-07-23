@@ -1,60 +1,30 @@
-PRJ_DIR_ROOT = $(shell git rev-parse --show-toplevel)
+PRJ_DIR_ROOT = $(realpath .)
 
 # ------------------------------------------ PATHS
+DIR_BIN		:= ${PRJ_DIR_ROOT}/bin
+
 # ------------------------------------------ VARIABLES
+LAB_01_RTL	:= ./lab_01/register.sv
+LAB_01_TB	:= ./lab_01/tb_register.sv
+LAB_01_TOP	:= tb_register
+WORKLIB		:= work
+
 # ------------------------------------------ TARGETS
-compile_lab04:
+
+run_lab01:
 	@ echo " "
-	@ echo ----------------------------- Compiling Lab 04 -----------------------------
-	@ bash ${PRJ_DIR_ROOT}/scripts/sim_lab04.sh
+	@ [[ -d ${DIR_BIN} ]] || mkdir ${DIR_BIN}
+	@ echo ----------------------------- Simulating Lab 01 ----------------------------
+	@ echo "reading all RTL file/s"
+	@ exec xvlog -sv -v 0 --work $(WORKLIB) --incr --relax $(LAB_01_RTL)
+	@ echo "reading all TB file/s"
+	@ exec xvlog -sv -v 0 --work $(WORKLIB) --incr --relax $(LAB_01_TB)
+	@ echo "elaborate the design"
+	@ exec xelab $(LAB_01_TOP) -s $(LAB_01_TOP)_behav --incr --debug typical --relax --mt 8 -L \
+		work -log $(DIR_BIN)/elaborate_$(LAB_01_TOP).log
+	@ echo "simulate the design"
+	@ exec xsim $(LAB_01_TOP)_behav -runall -ieeewarnings \
+		-log $(DIR_BIN)/simulate_$(LAB_01_TOP).log -wdb $(DIR_BIN)/waveform_db_$(LAB_01_TOP).wdb
 	@ echo ----------------------------------- DONE -----------------------------------
 	@ echo " "
 
-compile_lab03:
-	@ echo " "
-	@ echo ----------------------------- Compiling Lab 03 -----------------------------
-	@ bash ${PRJ_DIR_ROOT}/scripts/sim_lab03.sh
-	@ echo ----------------------------------- DONE -----------------------------------
-	@ echo " "
-
-compile_lab02:
-	@ echo " "
-	@ echo ----------------------------- Compiling Lab 02 -----------------------------
-	@ bash ${PRJ_DIR_ROOT}/scripts/sim_lab02.sh
-	@ echo ----------------------------------- DONE -----------------------------------
-	@ echo " "
-
-compile_lab01:
-	@ echo " "
-	@ echo ----------------------------- Compiling Lab 01 -----------------------------
-	@ bash ${PRJ_DIR_ROOT}/scripts/sim_lab01.sh
-	@ echo ----------------------------------- DONE -----------------------------------
-	@ echo " "
-
-install_iverilog:
-	@ echo " "
-	@ echo ------------------------- INSTALLING Icarus Verilog ------------------------
-	@ bash ${PRJ_DIR_ROOT}/scripts/install_iverilog.sh
-	@ echo ----------------------------------- DONE -----------------------------------
-	@ echo " "
-
-install_yosys:
-	@ echo " "
-	@ echo ------------------- INSTALLING Yosys Open SYnthesis Suite ------------------
-	@ bash ${PRJ_DIR_ROOT}/scripts/install_yosys.sh
-	@ echo ----------------------------------- DONE -----------------------------------
-	@ echo " "
-
-clean_all:
-	@ echo " "
-	@ echo -------------------------- Cleaning all dump files -------------------------
-	@ rm -rf \
-	lab_*/*.ys \
-	lab_*/*.vcd \
-	lab_*/*.json \
-	lab_*/*.v \
-	lab_*/*.dot \
-	lab_*/*.svg \
-	lab_*/*.vvp
-	@ echo ----------------------------------- DONE -----------------------------------
-	@ echo " "
