@@ -10,11 +10,11 @@ module tb_multiplexor;
     logic             sel_a;   // mux_test select a
 
     // Instantiate mux
-    multiplexor #(.DATA_WIDTH(WIDTH)) dut_multiplexor(
-        .in_a (in_a ),
-        .in_b (in_b ),
-        .sel  (sel_a),
-        .out  (out  )
+    multiplexor #(.DATA_WIDTH(WIDTH)) DUT_mux (
+        .i_a(in_a),
+        .i_b(in_b),
+        .i_sel(sel_a),
+        .o_data(out)
     );
 
     // Monitor Results
@@ -42,13 +42,13 @@ module tb_multiplexor;
         in_a='1; in_b='0; sel_a=1; #1ns xpect('1);
         in_a='1; in_b='1; sel_a=0; #1ns xpect('1);
         in_a='1; in_b='1; sel_a=1; #1ns xpect('1);
-        
+
         $display("MUX TEST PASSED");
         $finish(0);
     end
 
     initial begin
-        $dumpfile("lab_02/lab_02.vcd");
+        $dumpfile("./lab_02/tb_multiplexor.vcd");
         $dumpvars(0, tb_multiplexor);
     end
 
