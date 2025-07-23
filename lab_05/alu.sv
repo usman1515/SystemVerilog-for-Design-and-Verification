@@ -1,32 +1,27 @@
 `timescale 1ns/100ps
+
 import typedefs::*;
 
 module alu (
-    input   logic       clk,
-    input   logic [7:0] accum,
-    input   logic [7:0] data,
-    input   opcode_t    opcode,
-    output  logic [7:0] out,
-    output  logic       zero
+    input logic     clk,
+    input logic     [7:0] i_accum,
+    input logic     [7:0] i_data,
+    input opcode_t  i_opcode,
+    output logic    [7:0] o_data,
+    output logic    o_zero
 );
 
-always_ff @(negedge clk) begin
-    unique case (opcode)
-        HLT: out = accum;
-        SKZ: out = accum;
-        ADD: out = data + accum;
-        AND: out = data & accum;
-        XOR: out = data ^ accum;
-        LDA: out = data;
-        STO: out = accum;
-        JMP: out = accum; 
-    endcase
-end
+    always_ff @(negedge clk) begin
+        case (i_opcode)
+            HLT, SKZ, STO, JMP: o_data <= i_accum;
+            ADD: o_data <= i_data + i_accum;
+            AND: o_data <= i_data & i_accum;
+            XOR: o_data <= i_data ^ i_accum;
+            LDA: o_data <= i_data;
+        endcase
+    end
 
-assign zero = (!accum)? 1 : 0;
-
-// always_comb 
-    // zero = ~(|accum);
-    // zero = (!accum)? 1 : 0;
+    assign o_zero = ~(|i_accum);
 
 endmodule
+
