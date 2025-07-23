@@ -1,42 +1,57 @@
-`timescale 1ns/100ps
+///////////////////////////////////////////////////////////////////////////
+// (c) Copyright 2013 Cadence Design Systems, Inc. All Rights Reserved.
+//
+// File name   : register_test.sv
+// Title       : Register Testbench Module
+// Project     : SystemVerilog Training
+// Created     : 2013-4-8
+// Description : Defines the register testbench module
+// Notes       :
+//
+///////////////////////////////////////////////////////////////////////////
+
+`define PERIOD 10
 
 module tb_register;
 
-    logic       rst_  = 1'b1;
-    logic       clk   = 1'b1;
-    logic       enable;
-    logic [7:0] out;
-    logic [7:0] data;
+    timeunit 1ns;
+    timeprecision 100ps;
+    localparam DATA_WIDTH=8;
 
-    `define PERIOD 10
+    logic [DATA_WIDTH-1 : 0] out;
+    logic [DATA_WIDTH-1 : 0] data;
+    logic enable;
+    logic rst_ = 1'b1;
+    logic clk = 1'b1;
 
     always begin
-        #(`PERIOD/2) clk = ~clk;
+        #(`PERIOD/2) clk=1'b1;  #(`PERIOD/2) clk=1'b0;
     end
 
-    // INSTANCE register 
-    register #(.DATA_WIDTH (8)) dut_register(
-        .clk  (clk      ),
-        .rst_ (rst_     ),
-        .en   (enable   ),
-        .data (data     ),
-        .out  (out      )
-    );    
+    register #(
+        .DATA_WIDTH(DATA_WIDTH)
+    ) DUT_register (
+        .clk(clk),
+        .rst_n(rst_),
+        .i_en(enable),
+        .i_data(data),
+        .o_data(out)
+    );
 
     // Monitor Results
     initial begin
         $timeformat(-9, 1, " ns", 9);
-        $monitor ("time=%t enable=%b rst_=%b data=%h out=%h", $time,enable,rst_,data,out);
-        #(`PERIOD * 99)
-        $display ( "REGISTER TEST TIMEOUT" );
-        $finish;
+        $monitor("time=%t enable=%b rst_=%b data=%h out=%h", $time, enable, rst_, data, out);
+            #(`PERIOD * 99)
+            $display("REGISTER TEST TIMEOUT");
+            $finish;
     end
 
     // Verify Results
-    task expect_test (input [7:0] expects) ;
-        if ( out !== expects ) begin
-            $display ( "out=%b, should be %b", out, expects );
-            $display ( "REGISTER TEST FAILED" );
+    task expect_test (input [7:0] expects);
+        if (out !== expects) begin
+            $display("out=%b, should be %b", out, expects);
+            $display("REGISTER TEST FAILED");
             $finish;
         end
     endtask
@@ -56,7 +71,7 @@ module tb_register;
         $finish;
     end
 
-    initial begin
+        initial begin
         $dumpfile("lab_01/lab_01.vcd");
         $dumpvars(0, tb_register);
     end
