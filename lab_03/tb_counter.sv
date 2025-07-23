@@ -1,31 +1,48 @@
-`timescale 1ns/100ps
+///////////////////////////////////////////////////////////////////////////
+// (c) Copyright 2013 Cadence Design Systems, Inc. All Rights Reserved.
+//
+// File name   : tb_counter.sv
+// Title       : Counter Testbench Module
+// Project     : SystemVerilog Training
+// Created     : 2013-4-8
+// Description : Defines the Counter testbench module
+// Notes       :
+//
+///////////////////////////////////////////////////////////////////////////
+
+`define PERIOD 10
 
 module tb_counter;
 
-    logic           clk = 1'b1;
-    logic           rst_;
-    logic           load;
-    logic           enable;
-    logic   [4:0]   data;
-    logic   [4:0]   count;
+    timeunit 1ns;
+    timeprecision 100ps;
 
-    `define PERIOD 10
-    always #(`PERIOD/2) clk = ~clk;
+    logic rst_;
+    logic load;
+    logic enable;
+    logic [4:0] data;
+    logic [4:0] count;
+    logic clk = 1'b1;
+
+    always begin
+        #(`PERIOD/2) clk=1'b1;  #(`PERIOD/2) clk=1'b0;
+    end
 
     // counter instance
-    counter #(.DATA_WIDTH (5)) dut_counter(
-        .clk    (clk    ),
-        .rst_   (rst_   ),
-        .enable (enable ),
-        .load   (load   ),
-        .data   (data   ),
-        .count  (count  )
+    counter DUT_counter (
+        .clk(clk),
+        .rst_n(rst_),
+        .i_en(enable),
+        .i_load(load),
+        .i_data(data),
+        .o_count(count)
     );
 
     // Monitor Results
     initial begin
-        $timeformat(-9, 0, "ns", 6 );
-        $monitor("time=%t clk=%b rst_=%b load=%b enable=%b data=%5d count=%5d", $time, clk, rst_ ,load, enable, data, count);
+        $timeformat(-9, 0, "ns", 6);
+        $monitor("time=%t clk=%b rst_=%b load=%b enable=%b data=%h count=%h",
+            $time, clk, rst_, load, enable, data, count);
         #(`PERIOD * 99)
         $display("COUNTER TEST TIMEOUT");
         $finish;
@@ -42,7 +59,7 @@ module tb_counter;
     endtask
 
     initial begin
-        @ ( negedge clk )                  
+        @(negedge clk)
         // check reset
         { rst_, load, enable, data } = 8'b0_X_X_XXXXX; @(negedge clk) expect_test ( 5'h00 );
         // count 4 enabled cycles
@@ -63,7 +80,7 @@ module tb_counter;
         // check roll-over count
         { rst_, load, enable, data } = 8'b1_0_1_XXXXX; @(negedge clk) expect_test ( 5'h00 );
         { rst_, load, enable, data } = 8'b1_0_1_XXXXX; @(negedge clk) expect_test ( 5'h01 );
-        $display ( "COUNTER TEST PASSED" );
+        $display("COUNTER TEST PASSED");
         $finish;
     end
 
