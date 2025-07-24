@@ -3,35 +3,35 @@
 `define DATA_WIDTH 8
 `define PERIOD 10
 
-module tb_mem;
+module tb_mem (
+    input logic clk,
+    output logic read,
+    output logic write,
+    output logic [`ADDR_WIDTH-1:0] addr,
+    output logic [`DATA_WIDTH-1:0] data_in,
+    input logic [`DATA_WIDTH-1:0] data_out
+);
 
     timeunit 1ns;
     timeprecision 100ps;
-
-    logic clk;
-    logic read;
-    logic write;
-    logic [`ADDR_WIDTH-1:0] addr;
-    logic [`DATA_WIDTH-1:0] data_in;
-    logic [`DATA_WIDTH-1:0] data_out;
 
     logic debug=0;
     int error_status = 0;
     logic [`DATA_WIDTH-1:0] rdata;
     logic [`ADDR_WIDTH-1:0] temp_addr;
 
-    mem DUT_mem(
-        .clk(clk),
-        .i_read(read),
-        .i_write(write),
-        .i_addr(addr),
-        .i_data(data_in),
-        .o_data(data_out)
-    );
+    // mem DUT_mem(
+    //     .clk(clk),
+    //     .i_read(read),
+    //     .i_write(write),
+    //     .i_addr(addr),
+    //     .i_data(data_in),
+    //     .o_data(data_out)
+    // );
 
-    always begin
-        #(`PERIOD/2) clk=1'b1;  #(`PERIOD/2) clk=1'b0;
-    end
+    // always begin
+    //     #(`PERIOD/2) clk=1'b1;  #(`PERIOD/2) clk=1'b0;
+    // end
 
     initial begin
         $timeformat(-9, 0, " ns", 9);
@@ -143,10 +143,10 @@ module tb_mem;
             $display("Read  - Address:%d  Data:%h", raddr, rdata);
     endtask
 
-    initial begin
-        $dumpfile("lab_06/lab_06.vcd");
-        $dumpvars(0, tb_mem);
-    end
+    // initial begin
+    //     $dumpfile("lab_06/lab_06.vcd");
+    //     $dumpvars(0, tb_mem);
+    // end
 
 endmodule
 
