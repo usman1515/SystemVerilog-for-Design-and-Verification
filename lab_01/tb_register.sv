@@ -22,7 +22,7 @@ module tb_register;
     logic [DATA_WIDTH-1 : 0] data;
     logic enable;
     logic rst_ = 1'b1;
-    logic clk = 1'b1;
+    logic clk;
 
     always begin
         #(`PERIOD/2) clk=1'b1;  #(`PERIOD/2) clk=1'b0;
@@ -71,8 +71,8 @@ module tb_register;
         $finish;
     end
 
-        initial begin
-        $dumpfile("lab_01/lab_01.vcd");
+    initial begin
+        $dumpfile("lab_01.vcd");
         $dumpvars(0, tb_register);
     end
 
