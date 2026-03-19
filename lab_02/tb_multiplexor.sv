@@ -61,7 +61,7 @@ module tb_multiplexor;
     end
 
     initial begin
-        $dumpfile("lab_02/lab_02.vcd");
+        $dumpfile("lab_02.vcd");
         $dumpvars(0, tb_multiplexor);
     end
 
