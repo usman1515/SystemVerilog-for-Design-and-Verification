@@ -3,7 +3,7 @@
 `define DATA_WIDTH 8
 `define PERIOD 10
 
-module tb_mem (
+module tb_mem_lab06 (
     input logic clk,
     output logic read,
     output logic write,
@@ -20,7 +20,7 @@ module tb_mem (
     logic [`DATA_WIDTH-1:0] rdata;
     logic [`ADDR_WIDTH-1:0] temp_addr;
 
-    // mem DUT_mem(
+    // mem_lab06 DUT_mem(
     //     .clk(clk),
     //     .i_read(read),
     //     .i_write(write),
@@ -144,8 +144,8 @@ module tb_mem (
     endtask
 
     // initial begin
-    //     $dumpfile("lab_06/lab_06.vcd");
-    //     $dumpvars(0, tb_mem);
+    //     $dumpfile("lab_06.vcd");
+    //     $dumpvars(0, tb_mem_lab06);
     // end
 
 endmodule

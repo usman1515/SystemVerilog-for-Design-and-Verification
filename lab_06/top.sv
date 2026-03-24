@@ -1,6 +1,6 @@
 `timescale 1ns/100ps
 
-module tb_top_mem;
+module tb_top_mem_lab06;
 
     localparam ADDR_WIDTH = 5;
     localparam DATA_WIDTH = 8;
@@ -20,7 +20,7 @@ module tb_top_mem;
         #(PERIOD/2) clk=1'b1;  #(PERIOD/2) clk=1'b0;
     end
 
-    mem DUT_mem (
+    mem_lab06 DUT_mem (
         .clk(clk),
         .i_read(read),
         .i_write(write),
@@ -29,7 +29,7 @@ module tb_top_mem;
         .o_data(data_out)
     );
 
-    tb_mem TB_mem (
+    tb_mem_lab06 TB_mem (
         .clk(clk),
         .read(read),
         .write(write),
@@ -39,8 +39,8 @@ module tb_top_mem;
     );
 
     initial begin
-        $dumpfile("lab_06/lab_06.vcd");
-        $dumpvars(0, tb_top_mem);
+        $dumpfile("lab_06.vcd");
+        $dumpvars(0, tb_top_mem_lab06);
     end
 
 endmodule

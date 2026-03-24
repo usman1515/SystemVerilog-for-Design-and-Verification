@@ -3,7 +3,7 @@
 `define ADDR_WIDTH 5
 `define DATA_WIDTH 8
 
-module mem (
+module mem_lab06 (
     input logic     clk,
     input logic     i_read,
     input logic     i_write,
