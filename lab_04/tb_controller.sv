@@ -111,7 +111,7 @@ module tb_controller;
     end
 
     initial begin
-        $dumpfile("lab_04/lab_04.vcd");
+        $dumpfile("lab_04.vcd");
         $dumpvars(0, tb_controller);
     end
 
