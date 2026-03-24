@@ -51,6 +51,14 @@ module tb_alu;
     end
     endtask
 
+    initial begin
+        $timeformat(-9, 1, " ns", 9);
+        // SystemVerilog: enhanced literal notation
+        #2000ns
+        $display("ALU TEST TIMEOUT");
+        $finish;
+    end
+
     // Apply Stimulus
     initial begin
         @(posedge clk)
@@ -72,11 +80,8 @@ module tb_alu;
     end
 
     initial begin
-        $timeformat(-9, 1, " ns", 9);
-        // SystemVerilog: enhanced literal notation
-        #2000ns
-        $display("ALU TEST TIMEOUT");
-        $finish;
+        $dumpfile("lab_05.vcd");
+        $dumpvars(0, tb_alu);
     end
 
 endmodule
