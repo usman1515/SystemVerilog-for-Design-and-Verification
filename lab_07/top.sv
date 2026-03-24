@@ -1,6 +1,6 @@
 `timescale 1ns/100ps
 
-module tb_top_mem;
+module tb_top_mem_lab07;
 
     localparam PERIOD = 10;
 
@@ -15,15 +15,15 @@ module tb_top_mem;
     memory_if memif(.clk(clk));
 
     // instantiate DUT
-    mem DUT_mem(.bus(memif.DUT));
+    mem_lab07 DUT_mem(.bus(memif.DUT));
 
     // instantiate TB
-    tb_mem TB_mem(.bus(memif.TB));
+    tb_mem_lab07 TB_mem(.bus(memif.TB));
 
     // generate waveform dump
     initial begin
-        $dumpfile("lab_07/lab_07.vcd");
-        $dumpvars(0, tb_top_mem);
+        $dumpfile("lab_07.vcd");
+        $dumpvars(0, tb_top_mem_lab07);
     end
 
 endmodule

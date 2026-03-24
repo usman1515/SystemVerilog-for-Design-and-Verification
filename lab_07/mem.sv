@@ -4,7 +4,7 @@
 `define ADDR_WIDTH 5
 `define DATA_WIDTH 8
 
-module mem (memory_if.DUT bus);
+module mem_lab07 (memory_if.DUT bus);
 
     // logic [`DATA_WIDTH-1 : 0] mem_block [0 : (2**ADDR_WIDTH)-1];
     logic [`DATA_WIDTH-1 : 0] mem_block [(2**`ADDR_WIDTH)-1];

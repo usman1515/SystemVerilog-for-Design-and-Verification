@@ -3,7 +3,7 @@
 `define DATA_WIDTH 8
 `define PERIOD 10
 
-module tb_mem(memory_if.TB bus);
+module tb_mem_lab07(memory_if.TB bus);
 
     timeunit 1ns;
     timeprecision 100ps;
