@@ -85,7 +85,7 @@ module tb_counter;
     end
 
     initial begin
-        $dumpfile("lab_03/lab_03.vcd");
+        $dumpfile("lab_03.vcd");
         $dumpvars(0, tb_counter);
     end
 
