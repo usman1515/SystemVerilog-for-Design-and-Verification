@@ -143,10 +143,12 @@ module tb_mem_lab06 (
             $display("Read  - Address:%d  Data:%h", raddr, rdata);
     endtask
 
-    // initial begin
-    //     $dumpfile("lab_06.vcd");
-    //     $dumpvars(0, tb_mem_lab06);
-    // end
+    `ifdef WAVE_DUMP
+    initial begin
+        $dumpfile("./bin/lab_06.vcd");
+        $dumpvars(0, tb_mem_lab06);
+    end
+    `endif
 
 endmodule
 

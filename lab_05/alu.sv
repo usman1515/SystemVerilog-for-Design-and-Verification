@@ -1,6 +1,6 @@
 `timescale 1ns/100ps
 
-import typedefs::*;
+import typedefs_lab05::*;
 
 module alu (
     input logic     clk,

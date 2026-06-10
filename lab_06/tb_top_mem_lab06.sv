@@ -38,9 +38,9 @@ module tb_top_mem_lab06;
         .data_out(data_out)
     );
 
-    initial begin
-        $dumpfile("lab_06.vcd");
-        $dumpvars(0, tb_top_mem_lab06);
-    end
+    // initial begin
+    //     $dumpfile("lab_06.vcd");
+    //     $dumpvars(0, tb_top_mem_lab06);
+    // end
 
 endmodule

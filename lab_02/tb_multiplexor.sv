@@ -10,6 +10,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////
 
+`define PERIOD 10
+
 module tb_multiplexor;
 
     timeunit 1ns;
@@ -33,12 +35,15 @@ module tb_multiplexor;
 
     // Monitor Results
     initial begin
-        $timeformat(-9, 0, "ns", 3);
-        $monitor("%t in_a=%h in_b=%h sel_a=%h out=%h", $time, in_a, in_b, sel_a, out) ;
+        $timeformat(-9, 1, " ns", 9);
+        #(`PERIOD * 99)
+        $display("MULTIPLEXOR TEST TIMEOUT");
+        $finish;
     end
 
     // Verify Results
     task expect_test (input [WIDTH-1:0] expects);
+        $display("%t in_a=%h in_b=%h sel_a=%h out=%h", $time, in_a, in_b, sel_a, out);
         if (out !== expects) begin
             $display("out is %b and should be %b", out, expects);
             $display("MUX TEST FAILED");
@@ -60,10 +65,12 @@ module tb_multiplexor;
         $finish(0);
     end
 
+    `ifdef WAVE_DUMP
     initial begin
-        $dumpfile("lab_02.vcd");
+        $dumpfile("./bin/lab_02.vcd");
         $dumpvars(0, tb_multiplexor);
     end
+    `endif
 
 endmodule
 

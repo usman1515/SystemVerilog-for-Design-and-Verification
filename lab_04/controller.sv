@@ -1,6 +1,6 @@
 `timescale 1ns/100ps
 
-import typedefs::*;
+import typedefs_lab04::*;
 
 module controller (
     input logic     clk,

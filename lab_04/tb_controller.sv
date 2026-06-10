@@ -13,7 +13,7 @@
 `define PERIOD 10
 
 // import package for opcode_t and state_t types
-import typedefs::*;
+import typedefs_lab04::*;
 
 module tb_controller;
 
@@ -66,9 +66,6 @@ module tb_controller;
     // Monitor Results
     initial begin
         $timeformat(-9, 1, "ns", 9);
-        $monitor("%t rst_=%b ph=%s \t zer=%b op=%s rd=%b l_ir=%b hlt=%b inc=%b l_ac=%b l_pc=%b wr=%b",
-            $time, rst_, lstate.name(), zero, opcode.name(),
-            mem_rd, load_ir, halt, inc_pc, load_ac, load_pc, mem_wr);
         // SystemVerilog: time units in literals
         #12000ns
         $display ("CONTROLLER TEST TIMEOUT");
@@ -88,6 +85,11 @@ module tb_controller;
         // SystemVerilog: do...while loop and named block
         do begin : ApplyStim
             @(negedge clk);
+
+            $display("%t rst_=%b ph=%s \t zer=%b op=%s rd=%b l_ir=%b hlt=%b inc=%b l_ac=%b l_pc=%b wr=%b",
+                $time, rst_, lstate.name(), zero, opcode.name(),
+                mem_rd, load_ir, halt, inc_pc, load_ac, load_pc, mem_wr);
+
             response_num = response_num + 1 ;
 
             if (response_net !== response_mem[response_num]) begin
@@ -110,9 +112,11 @@ module tb_controller;
         $finish;
     end
 
+    `ifdef WAVE_DUMP
     initial begin
-        $dumpfile("lab_04.vcd");
+        $dumpfile("./bin/lab_04.vcd");
         $dumpvars(0, tb_controller);
     end
+    `endif
 
 endmodule

@@ -10,7 +10,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////
 
-import typedefs::*;
+import typedefs_lab05::*;
 
 `define PERIOD 10
 
@@ -79,10 +79,12 @@ module tb_alu;
         $finish;
     end
 
+    `ifdef WAVE_DUMP
     initial begin
-        $dumpfile("lab_05.vcd");
+        $dumpfile("./bin/lab_05.vcd");
         $dumpvars(0, tb_alu);
     end
+    `endif
 
 endmodule
 

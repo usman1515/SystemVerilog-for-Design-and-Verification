@@ -41,8 +41,6 @@ module tb_counter;
     // Monitor Results
     initial begin
         $timeformat(-9, 0, "ns", 6);
-        $monitor("time=%t clk=%b rst_=%b load=%b enable=%b data=%h count=%h",
-            $time, clk, rst_, load, enable, data, count);
         #(`PERIOD * 99)
         $display("COUNTER TEST TIMEOUT");
         $finish;
@@ -51,9 +49,11 @@ module tb_counter;
     // Verify Results
     task expect_test;
         input [4:0] expects;
-        if ( count !== expects ) begin
-            $display ( "count=%b should be %b", count, expects );
-            $display ( "COUNTER TEST FAILED" );
+        $display("time=%t clk=%b rst_=%b load=%b enable=%b data=%h count=%h",
+            $time, clk, rst_, load, enable, data, count);
+        if(count !== expects) begin
+            $display("count=%b should be %b", count, expects);
+            $display("COUNTER TEST FAILED");
             $finish;
         end
     endtask
@@ -84,9 +84,12 @@ module tb_counter;
         $finish;
     end
 
+    `ifdef WAVE_DUMP
     initial begin
-        $dumpfile("lab_03.vcd");
+        $dumpfile("./bin/lab_03.vcd");
         $dumpvars(0, tb_counter);
     end
+    `endif
 
 endmodule
+
