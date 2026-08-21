@@ -1,26 +1,27 @@
 `timescale 1ns/100ps
 
-module counter #(parameter DATA_WIDTH = 3)(
-    input   logic                   clk ,
-    input   logic                   rst_,
-    input   logic                   enable,
-    input   logic                   load,
-    input   logic [DATA_WIDTH-1:0]  data,
-    output  logic [DATA_WIDTH-1:0]  count
+module counter (
+    input logic     clk,
+    input logic     rst_n,
+    input logic     i_en,
+    input logic     i_load,
+    input logic     [4:0] i_data,
+    output logic    [4:0] o_count
 );
 
-always_ff @(posedge clk, negedge rst_) begin
-    if (rst_) begin
-        if(load) begin
-            count <= data;
+    always_ff @(posedge clk, negedge rst_n) begin
+        if (rst_n) begin
+            if(i_load) begin
+                o_count <= i_data;
+            end
+            else begin
+                o_count <= (i_en)? o_count + 1'b1 : o_count;
+            end
         end
-        else if (enable) begin
-            count <= count + 1;
+        else begin
+            o_count <= 'd0;
         end
     end
-    else begin
-        count <= 'd0;
-    end
-end
 
 endmodule
+

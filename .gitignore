@@ -1,18 +1,39 @@
+.vscode
+
+# vivado projects
+basys3*
+nexys*
+
+# vivado binaries
+.Xil
+-p
+.gen
+.srcs
+xsim.dir
+ip
+*/*.bak
+
+# bitstreams generated
+*.bit
+
+# vivado logs
+*.jou
+*.log
+*.str
+
+# testbench simulation dumps
+*.vcd
+*.wdb
+*.zip
+*.xml
+*.pb
+*.vvp
+obj_dir
+
+# checkpoints, reports, logs
+bin
+
+# docs
 *.pdf
 *.zip
-
-work
-sv-for-design-and-verif.mpf
-sv-for-design-and-verif.cr.mti
-vsim.wlf
-transcript
-
-lab_*/*.sv.bak
-
-lab_*/*.ys
-lab_*/*.vcd
-lab_*/*.json
-lab_*/*.v
-lab_*/*.dot
-lab_*/*.svg
-lab_*/*.vvp
+docs/build
